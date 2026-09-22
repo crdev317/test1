@@ -1,73 +1,127 @@
-# Domain Glossary
+# Desktop Weather App
 
-<!-- Places -->
+A desktop app that shows the weather provider's forecast for the user's places alongside its own simple, clearly-labelled estimate built from recent weather.
 
-## Current Location
-The device's own position, detected automatically, used as a Location. Temporary: it is not a Saved Location unless the user saves it.
+## Language
 
-## Default Location
-The one Saved Location shown when the app starts. Exactly one Saved Location is the Default Location whenever any Saved Location exists.
+### Places
 
-## Location
-A place on Earth that weather is fetched for, identified by coordinates and a display name. It comes from a search or from the device's position (the Current Location). The general term — not necessarily a Saved Location.
+**Location**:
+A place on Earth that weather is fetched for, identified by coordinates and a display name — the general term, not necessarily a **Saved Location**.
+_Avoid_: City, place, spot
 
-## Saved Location
-A Location the user has chosen to keep in their list, so it persists across sessions. Not the Current Location, unless the user has explicitly saved that position.
+**Saved Location**:
+A **Location** the user has chosen to keep in their list across sessions.
+_Avoid_: Favourite, bookmark, pinned location
 
-<!-- Weather data -->
+**Current Location**:
+The device's own position used as a temporary **Location**, never a **Saved Location** unless the user explicitly saves it.
+_Avoid_: My location, GPS location, here
 
-## Current Conditions
-The latest weather at a Location, shown as "now". A view of the most recent Observation for that Location — not a separate kind of data, and not a forecast.
+**Default Location**:
+The one **Saved Location** shown when the app starts.
+_Avoid_: Home, primary location
 
-## Daily Forecast
-A Provider Forecast expressed as one set of Weather Variable values per calendar day (for example, a high, a low, and total precipitation). A coarser view of the same Provider Forecast as the Hourly Forecast.
+### Weather data
 
-## Hourly Forecast
-A Provider Forecast expressed as one set of Weather Variable values per hour. A finer view of the same Provider Forecast as the Daily Forecast.
+**Weather Variable**:
+One measurable aspect of the weather — temperature, precipitation, wind speed, wind gust, humidity, and so on.
+_Avoid_: Metric, parameter, field
 
-## Observation
-The weather at one Location for one past hour, holding a value for each Weather Variable. Observations are the input to the Forecasting Model. An Observation always describes a time that has already passed — it is never a forecast. Historical values the weather provider reports for past hours count as Observations, even where the provider modelled them rather than measured them at a station.
+**Observation**:
+The weather at one **Location** for one past hour — always past, never a forecast, even where the provider modelled rather than measured it.
+_Avoid_: Reading, measurement, history point, actuals
 
-## Provider Forecast
-The forecast supplied by the weather provider (Open-Meteo), shown as the official outlook, as an Hourly Forecast and a Daily Forecast. The app never alters it. Not the App Forecast.
+**Current Conditions**:
+A view of the most recent **Observation** for a **Location**, shown as "now" — not a separate kind of data and not a forecast.
+_Avoid_: Current weather, live weather
 
-## Weather Variable
-One measurable aspect of the weather — temperature, precipitation, wind speed, wind gust, humidity, and so on. Observations, Provider Forecasts, App Forecasts and Alert Thresholds are all expressed in Weather Variables.
+**Provider Forecast**:
+The forecast supplied by the weather provider, shown as the official outlook and never altered by the app.
+_Avoid_: Official forecast, API forecast, real forecast
 
-<!-- The app's forecasting -->
+**Hourly Forecast**:
+The **Provider Forecast** viewed as one set of **Weather Variable** values per hour.
+_Avoid_: Hour-by-hour
 
-## App Forecast
-The app's own estimate of upcoming weather at a Location, produced by the Forecasting Model from recent Observations. Always shown alongside the Provider Forecast, labelled as an estimate and carrying a Confidence. It never replaces, adjusts, or feeds into the Provider Forecast.
+**Daily Forecast**:
+The **Provider Forecast** viewed as one set of **Weather Variable** values per calendar day.
+_Avoid_: Day summary, outlook
 
-## Confidence
-A rating — high, medium or low — of how far the user should trust an App Forecast. It rises with a shorter Forecast Horizon, more complete recent Observations, and closer agreement between the App Forecast and the Provider Forecast. Applies only to the App Forecast; the Provider Forecast carries no Confidence.
+### The app's forecasting
 
-## Forecast Horizon
-How far ahead of now a forecast reaches (for example, "the next 24 hours"). The Provider Forecast and the App Forecast each have their own Forecast Horizon.
+**App Forecast**:
+The app's own labelled short-range estimate (a nowcast) of the next few hours' weather at a **Location**, shown alongside — never replacing or adjusting — the **Provider Forecast**.
+_Avoid_: Prediction, our forecast, local forecast, AI forecast
 
-## Forecasting Model
-The deterministic method that turns Observations into an App Forecast. It carries a version, so any App Forecast can be traced to the method that produced it. Not a meteorological weather model and not an AI model.
+**Forecasting Model**:
+The versioned, deterministic method that turns **Observations** into an **App Forecast** — not a meteorological model and not an AI model.
+_Avoid_: Algorithm, predictor, engine, ML model
 
-<!-- Freshness -->
+**Confidence**:
+A high / medium / low rating of how far the user should trust an **App Forecast**.
+_Avoid_: Accuracy, probability, certainty, score
 
-## Observation Cache
-The app's local record of the Observations and Provider Forecasts it has fetched, kept so the app still has weather to show when the provider is unreachable. It is the source of Stale Data.
+**Forecast Horizon**:
+How far ahead of now a forecast reaches.
+_Avoid_: Range, lookahead, window
 
-## Refresh
-Fetching the latest Observations and Provider Forecast for a Location from the weather provider, which then produces a new App Forecast. It happens automatically or when the user asks.
+### Freshness
 
-## Stale Data
-Weather data shown from the Observation Cache because a Refresh could not reach the weather provider. Always shown with its age. Not wrong data — out-of-date data, labelled as such.
+**Observation Cache**:
+The app's local record of fetched **Observations** and **Provider Forecasts**, kept so there is weather to show when the provider is unreachable.
+_Avoid_: History, offline store, database
 
-<!-- Alerts -->
+**Refresh**:
+Fetching the latest **Observations** and **Provider Forecast** for a **Location**, automatically or on request.
+_Avoid_: Sync, reload, update, poll
 
-## Alert Threshold
-A limit on a Weather Variable (for example, wind gusts above a given speed) that, when crossed by the Provider Forecast for a Saved Location, triggers a Severe-Weather Alert.
+**Stale Data**:
+Weather data shown from the **Observation Cache**, with its age, because a **Refresh** could not reach the provider.
+_Avoid_: Old data, cached data, offline data
 
-## Severe-Weather Alert
-A notice the app raises itself when the Provider Forecast for a Saved Location crosses an Alert Threshold. The user opts in per Saved Location. It is the app's own warning, never an official warning from a weather authority, and is always worded that way. Driven by the Provider Forecast, never the App Forecast.
+### Alerts
 
-<!-- Preferences -->
+**Severe-Weather Alert**:
+The app's own warning — never an official one from a weather authority — raised when the **Provider Forecast** for a **Saved Location** crosses an **Alert Threshold**.
+_Avoid_: Weather warning, official alert, notification
 
-## Unit System
-The user's choice of metric or imperial units for displaying Weather Variables, defaulted from the device's locale. It changes how values are shown, never the values themselves.
+**Alert Threshold**:
+A limit on a **Weather Variable** whose crossing triggers a **Severe-Weather Alert**.
+_Avoid_: Trigger, limit, rule
+
+### Preferences
+
+**Unit System**:
+The user's choice of metric or imperial display units, which changes how values are shown but never the values themselves.
+_Avoid_: Units, measurement system
+
+## Relationships
+
+- A **Location** is either a **Saved Location** or the **Current Location**; the **Current Location** becomes a **Saved Location** only when the user saves it
+- Exactly one **Saved Location** is the **Default Location** whenever any **Saved Location** exists
+- A **Location** has many **Observations**; its **Current Conditions** is the most recent one
+- A **Location** has one **Provider Forecast**, viewed as an **Hourly Forecast** and a **Daily Forecast**
+- A **Location** has one **App Forecast**, produced by one version of the **Forecasting Model** from that **Location**'s **Observations**
+- Every **App Forecast** carries exactly one **Confidence**; a **Provider Forecast** carries none
+- The **Provider Forecast** and the **App Forecast** each have their own **Forecast Horizon**
+- A **Refresh** fills the **Observation Cache**; a failed **Refresh** means the **Observation Cache** is served as **Stale Data**
+- A **Severe-Weather Alert** is driven by the **Provider Forecast** for a **Saved Location** crossing an **Alert Threshold** — never by the **App Forecast**, and only where the user has opted in for that **Saved Location**
+
+## Example dialogue
+
+> **Dev:** "The **App Forecast** says 18° at 5pm but the **Provider Forecast** says 21° — should we average them?"
+> **Domain expert:** "No — the **App Forecast** never adjusts the **Provider Forecast**. Show both; the disagreement is what lowers the **Confidence** on ours."
+>
+> **Dev:** "The provider's been unreachable for three hours. Can the **Forecasting Model** still run?"
+> **Domain expert:** "Yes, on the **Observations** in the **Observation Cache** — but everything on screen is **Stale Data** and says how old it is."
+>
+> **Dev:** "The **App Forecast** is predicting 90 km/h gusts — do we raise a **Severe-Weather Alert**?"
+> **Domain expert:** "Not from the **App Forecast**. Only the **Provider Forecast** crossing an **Alert Threshold** raises one, and only for a **Saved Location** the user opted in."
+
+## Flagged ambiguities
+
+- "forecast" alone is ambiguous — resolved: always say **Provider Forecast** (the provider's, official, unaltered) or **App Forecast** (the app's own labelled estimate).
+- "current weather" could mean a separate live feed — resolved: **Current Conditions** is just the most recent **Observation**.
+- "alert" could imply an official warning — resolved: the provider publishes no official warnings; a **Severe-Weather Alert** is always the app's own and is worded that way.
+- "model" could mean a meteorological or AI model — resolved: the **Forecasting Model** is a simple, versioned, deterministic method, neither.
