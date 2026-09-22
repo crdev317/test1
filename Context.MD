@@ -15,8 +15,8 @@ A **Location** the user has chosen to keep in their list across sessions.
 _Avoid_: Favourite, bookmark, pinned location
 
 **Current Location**:
-The device's own position used as a temporary **Location**, never a **Saved Location** unless the user explicitly saves it.
-_Avoid_: My location, GPS location, here
+The device's own position, as reported by the operating system's location services with the user's permission, used as a temporary **Location** — it may not exist on a given device, and is never a **Saved Location** unless the user explicitly saves it.
+_Avoid_: My location, GPS location, IP location, here
 
 **Default Location**:
 The one **Saved Location** shown when the app starts.
@@ -148,3 +148,4 @@ _Avoid_: Units, measurement system
 - "improving" the **App Forecast** by nudging it towards the **Provider Forecast** — resolved: the **Forecasting Model** takes **Observations** only; otherwise agreement between the two forecasts, and so **Confidence**, becomes circular.
 - a "low **Confidence**" **App Forecast** built from hours-old **Observations** — resolved: past the **Freshness Cutoff** no **App Forecast** is shown at all; a guess shown as a number reads as a fact.
 - "alerts" could imply the app watches only while open — resolved: **Background Watch** keeps **Refreshing** opted-in **Saved Locations** after the window closes, and exists only because the user opted in.
+- "Current Location" could imply a position is always available — resolved: it comes only from the operating system's location services, with permission; where those are unavailable or refused there is no **Current Location**, and **Locations** come from search. It is never guessed from the network.
