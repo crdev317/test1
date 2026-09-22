@@ -84,6 +84,10 @@ _Avoid_: Sync, reload, update, poll
 Weather data shown from the **Observation Cache**, with its age, because a **Refresh** could not reach the provider.
 _Avoid_: Old data, cached data, offline data
 
+**Freshness Cutoff**:
+The age of the latest **Observation** beyond which no **App Forecast** is produced at all — past it, the app shows only **Stale Data** and says the estimate is unavailable.
+_Avoid_: Timeout, expiry, max age
+
 ### Alerts
 
 **Severe-Weather Alert**:
@@ -112,6 +116,7 @@ _Avoid_: Units, measurement system
 - An **App Forecast** carries **Rain Persistence** only when the latest **Observation** shows rain falling
 - The **Provider Forecast** and the **App Forecast** each have their own **Forecast Horizon**
 - A **Refresh** fills the **Observation Cache**; a failed **Refresh** means the **Observation Cache** is served as **Stale Data**
+- An **App Forecast** exists only while the latest **Observation** is within the **Freshness Cutoff**; **Stale Data** can outlive it, the **App Forecast** cannot
 - A **Severe-Weather Alert** is driven by the **Provider Forecast** for a **Saved Location** crossing an **Alert Threshold** — never by the **App Forecast**, and only where the user has opted in for that **Saved Location**
 
 ## Example dialogue
@@ -119,8 +124,8 @@ _Avoid_: Units, measurement system
 > **Dev:** "The **App Forecast** says 18° at 5pm but the **Provider Forecast** says 21° — should we average them?"
 > **Domain expert:** "No — the **App Forecast** never adjusts the **Provider Forecast**. Show both; the disagreement is what lowers the **Confidence** on ours."
 >
-> **Dev:** "The provider's been unreachable for three hours. Can the **Forecasting Model** still run?"
-> **Domain expert:** "Yes, on the **Observations** in the **Observation Cache** — but everything on screen is **Stale Data** and says how old it is."
+> **Dev:** "The provider's been unreachable since this morning. Can the **Forecasting Model** still run on the **Observation Cache**?"
+> **Domain expert:** "Only while the latest **Observation** is inside the **Freshness Cutoff**. Past that there's no **App Forecast** at all — just **Stale Data**, with its age, and a note that the estimate is unavailable."
 >
 > **Dev:** "It's been dry all morning, but the **Provider Forecast** shows a shower at 4pm. Should the **App Forecast** show it too?"
 > **Domain expert:** "No — **Rain Persistence** only speaks when rain is already falling. The **App Forecast** never predicts rain starting; that's the **Provider Forecast**'s job."
@@ -136,3 +141,4 @@ _Avoid_: Units, measurement system
 - "model" could mean a meteorological or AI model — resolved: the **Forecasting Model** is a simple, versioned, deterministic method, neither.
 - "rain forecast" from the app could imply it predicts showers — resolved: the **App Forecast** covers precipitation only as **Rain Persistence**; predicting rain starting is left to the **Provider Forecast**.
 - "improving" the **App Forecast** by nudging it towards the **Provider Forecast** — resolved: the **Forecasting Model** takes **Observations** only; otherwise agreement between the two forecasts, and so **Confidence**, becomes circular.
+- a "low **Confidence**" **App Forecast** built from hours-old **Observations** — resolved: past the **Freshness Cutoff** no **App Forecast** is shown at all; a guess shown as a number reads as a fact.
