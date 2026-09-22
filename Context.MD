@@ -51,8 +51,12 @@ _Avoid_: Day summary, outlook
 ### The app's forecasting
 
 **App Forecast**:
-The app's own labelled short-range estimate (a nowcast) of the next few hours' weather at a **Location**, shown alongside — never replacing or adjusting — the **Provider Forecast**.
+The app's own labelled short-range estimate (a nowcast) of the next few hours' temperature and **Rain Persistence** at a **Location**, shown alongside — never replacing or adjusting — the **Provider Forecast**.
 _Avoid_: Prediction, our forecast, local forecast, AI forecast
+
+**Rain Persistence**:
+The **App Forecast**'s judgement of whether rain already falling in the latest **Observation** continues or eases — it never predicts rain starting.
+_Avoid_: Rain forecast, chance of rain, precipitation forecast
 
 **Forecasting Model**:
 The versioned, deterministic method that turns **Observations** into an **App Forecast** — not a meteorological model and not an AI model.
@@ -104,6 +108,7 @@ _Avoid_: Units, measurement system
 - A **Location** has one **Provider Forecast**, viewed as an **Hourly Forecast** and a **Daily Forecast**
 - A **Location** has one **App Forecast**, produced by one version of the **Forecasting Model** from that **Location**'s **Observations**
 - Every **App Forecast** carries exactly one **Confidence**; a **Provider Forecast** carries none
+- An **App Forecast** carries **Rain Persistence** only when the latest **Observation** shows rain falling
 - The **Provider Forecast** and the **App Forecast** each have their own **Forecast Horizon**
 - A **Refresh** fills the **Observation Cache**; a failed **Refresh** means the **Observation Cache** is served as **Stale Data**
 - A **Severe-Weather Alert** is driven by the **Provider Forecast** for a **Saved Location** crossing an **Alert Threshold** — never by the **App Forecast**, and only where the user has opted in for that **Saved Location**
@@ -116,7 +121,10 @@ _Avoid_: Units, measurement system
 > **Dev:** "The provider's been unreachable for three hours. Can the **Forecasting Model** still run?"
 > **Domain expert:** "Yes, on the **Observations** in the **Observation Cache** — but everything on screen is **Stale Data** and says how old it is."
 >
-> **Dev:** "The **App Forecast** is predicting 90 km/h gusts — do we raise a **Severe-Weather Alert**?"
+> **Dev:** "It's been dry all morning, but the **Provider Forecast** shows a shower at 4pm. Should the **App Forecast** show it too?"
+> **Domain expert:** "No — **Rain Persistence** only speaks when rain is already falling. The **App Forecast** never predicts rain starting; that's the **Provider Forecast**'s job."
+>
+> **Dev:** "**Rain Persistence** says the rain will continue all afternoon — do we raise a **Severe-Weather Alert**?"
 > **Domain expert:** "Not from the **App Forecast**. Only the **Provider Forecast** crossing an **Alert Threshold** raises one, and only for a **Saved Location** the user opted in."
 
 ## Flagged ambiguities
@@ -125,3 +133,4 @@ _Avoid_: Units, measurement system
 - "current weather" could mean a separate live feed, or the provider's 15-minute "current" values — resolved: **Current Conditions** is just the most recent hourly **Observation**; **Observations** are hourly everywhere, so the app behaves the same in every region.
 - "alert" could imply an official warning — resolved: the provider publishes no official warnings; a **Severe-Weather Alert** is always the app's own and is worded that way.
 - "model" could mean a meteorological or AI model — resolved: the **Forecasting Model** is a simple, versioned, deterministic method, neither.
+- "rain forecast" from the app could imply it predicts showers — resolved: the **App Forecast** covers precipitation only as **Rain Persistence**; predicting rain starting is left to the **Provider Forecast**.
