@@ -50,4 +50,14 @@ Authority order (lower wins): **ADR > Technical-Context > Context.MD > PRD > Roa
 
 <!-- TODO(init): fill once the stack is chosen — install / test tiers / run.
      Written by /factory-init-tech-context or the first feature build. -->
-_Dev commands not set yet — filled when the stack is chosen (`/factory-init-tech-context`)._   <!-- filled per-product at init: install / test tiers / run -->
+Stack: Tauri 2 + React 19 + TypeScript + Vite (see `Technical-Context.MD`). _The app is not
+scaffolded yet — these become live once it is; wire the `npm` scripts to match._
+
+```bash
+npm ci                      # install (exact-pinned; never `npm install` on CI)
+npm run tauri dev           # run the desktop app locally
+npm test                    # Tier 1 — vitest + msw recorded replay (every commit)
+npm run test:e2e            # Tier 2 — tauri-driver against the built app, live Open-Meteo (scheduled)
+npm run lint                # eslint + prettier --check; cargo clippy + rustfmt --check
+npm run tauri build         # build installers for the current OS
+```
