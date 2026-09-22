@@ -95,7 +95,7 @@ The app's own warning — never an official one from a weather authority — rai
 _Avoid_: Weather warning, official alert, notification
 
 **Alert Threshold**:
-A limit on a **Weather Variable** whose crossing triggers a **Severe-Weather Alert**.
+A limit on a **Weather Variable**, belonging to one **Saved Location** and starting from a built-in default the user can adjust, whose crossing triggers a **Severe-Weather Alert**.
 _Avoid_: Trigger, limit, rule
 
 **Background Watch**:
@@ -123,6 +123,7 @@ _Avoid_: Units, measurement system
 - A **Refresh** fills the **Observation Cache**; a failed **Refresh** means the **Observation Cache** is served as **Stale Data**
 - An **App Forecast** exists only while the latest **Observation** is within the **Freshness Cutoff**; **Stale Data** can outlive it, the **App Forecast** cannot
 - A **Severe-Weather Alert** is driven by the **Provider Forecast** for a **Saved Location** crossing an **Alert Threshold** — never by the **App Forecast**, and only where the user has opted in for that **Saved Location**
+- A **Saved Location** with alerts on has its own **Alert Thresholds**, each starting from a built-in default
 - **Background Watch** runs only while at least one **Saved Location** has **Severe-Weather Alerts** on; with none, closing the window quits the app
 
 ## Example dialogue
