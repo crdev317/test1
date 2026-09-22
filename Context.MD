@@ -59,7 +59,7 @@ The **App Forecast**'s judgement of whether rain already falling in the latest *
 _Avoid_: Rain forecast, chance of rain, precipitation forecast
 
 **Forecasting Model**:
-The versioned, deterministic method that turns **Observations** into an **App Forecast** — not a meteorological model and not an AI model.
+The versioned, deterministic method that turns **Observations** — and only **Observations**, never the **Provider Forecast** — into an **App Forecast**; not a meteorological model and not an AI model.
 _Avoid_: Algorithm, predictor, engine, ML model
 
 **Confidence**:
@@ -107,6 +107,7 @@ _Avoid_: Units, measurement system
 - A **Location** has many **Observations**; its **Current Conditions** is the most recent one
 - A **Location** has one **Provider Forecast**, viewed as an **Hourly Forecast** and a **Daily Forecast**
 - A **Location** has one **App Forecast**, produced by one version of the **Forecasting Model** from that **Location**'s **Observations**
+- The **Provider Forecast** judges the **App Forecast** (through **Confidence**) but never builds it — the two stay independent, so their agreement is real information
 - Every **App Forecast** carries exactly one **Confidence**; a **Provider Forecast** carries none
 - An **App Forecast** carries **Rain Persistence** only when the latest **Observation** shows rain falling
 - The **Provider Forecast** and the **App Forecast** each have their own **Forecast Horizon**
@@ -134,3 +135,4 @@ _Avoid_: Units, measurement system
 - "alert" could imply an official warning — resolved: the provider publishes no official warnings; a **Severe-Weather Alert** is always the app's own and is worded that way.
 - "model" could mean a meteorological or AI model — resolved: the **Forecasting Model** is a simple, versioned, deterministic method, neither.
 - "rain forecast" from the app could imply it predicts showers — resolved: the **App Forecast** covers precipitation only as **Rain Persistence**; predicting rain starting is left to the **Provider Forecast**.
+- "improving" the **App Forecast** by nudging it towards the **Provider Forecast** — resolved: the **Forecasting Model** takes **Observations** only; otherwise agreement between the two forecasts, and so **Confidence**, becomes circular.
