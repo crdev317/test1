@@ -112,6 +112,7 @@ _Avoid_: Units, measurement system
 
 - A **Location** is either a **Saved Location** or the **Current Location**; the **Current Location** becomes a **Saved Location** only when the user saves it
 - Exactly one **Saved Location** is the **Default Location** whenever any **Saved Location** exists
+- At startup the app shows the **Default Location**; with no **Saved Location**, the **Current Location**; with neither, no **Location** at all until the user searches — it never shows a made-up place
 - A **Location** has many **Observations**; its **Current Conditions** is the most recent one
 - A **Location** has one **Provider Forecast**, viewed as an **Hourly Forecast** and a **Daily Forecast**
 - A **Location** has one **App Forecast**, produced by one version of the **Forecasting Model** from that **Location**'s **Observations**
