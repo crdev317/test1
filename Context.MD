@@ -98,6 +98,10 @@ _Avoid_: Weather warning, official alert, notification
 A limit on a **Weather Variable** whose crossing triggers a **Severe-Weather Alert**.
 _Avoid_: Trigger, limit, rule
 
+**Background Watch**:
+The app continuing, after its window is closed, to **Refresh** the **Saved Locations** that have **Severe-Weather Alerts** turned on — it exists only while at least one such **Saved Location** does.
+_Avoid_: Background mode, daemon, service, always-on
+
 ### Preferences
 
 **Unit System**:
@@ -118,6 +122,7 @@ _Avoid_: Units, measurement system
 - A **Refresh** fills the **Observation Cache**; a failed **Refresh** means the **Observation Cache** is served as **Stale Data**
 - An **App Forecast** exists only while the latest **Observation** is within the **Freshness Cutoff**; **Stale Data** can outlive it, the **App Forecast** cannot
 - A **Severe-Weather Alert** is driven by the **Provider Forecast** for a **Saved Location** crossing an **Alert Threshold** — never by the **App Forecast**, and only where the user has opted in for that **Saved Location**
+- **Background Watch** runs only while at least one **Saved Location** has **Severe-Weather Alerts** on; with none, closing the window quits the app
 
 ## Example dialogue
 
@@ -142,3 +147,4 @@ _Avoid_: Units, measurement system
 - "rain forecast" from the app could imply it predicts showers — resolved: the **App Forecast** covers precipitation only as **Rain Persistence**; predicting rain starting is left to the **Provider Forecast**.
 - "improving" the **App Forecast** by nudging it towards the **Provider Forecast** — resolved: the **Forecasting Model** takes **Observations** only; otherwise agreement between the two forecasts, and so **Confidence**, becomes circular.
 - a "low **Confidence**" **App Forecast** built from hours-old **Observations** — resolved: past the **Freshness Cutoff** no **App Forecast** is shown at all; a guess shown as a number reads as a fact.
+- "alerts" could imply the app watches only while open — resolved: **Background Watch** keeps **Refreshing** opted-in **Saved Locations** after the window closes, and exists only because the user opted in.
