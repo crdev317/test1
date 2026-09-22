@@ -122,6 +122,6 @@ _Avoid_: Units, measurement system
 ## Flagged ambiguities
 
 - "forecast" alone is ambiguous — resolved: always say **Provider Forecast** (the provider's, official, unaltered) or **App Forecast** (the app's own labelled estimate).
-- "current weather" could mean a separate live feed — resolved: **Current Conditions** is just the most recent **Observation**.
+- "current weather" could mean a separate live feed, or the provider's 15-minute "current" values — resolved: **Current Conditions** is just the most recent hourly **Observation**; **Observations** are hourly everywhere, so the app behaves the same in every region.
 - "alert" could imply an official warning — resolved: the provider publishes no official warnings; a **Severe-Weather Alert** is always the app's own and is worded that way.
 - "model" could mean a meteorological or AI model — resolved: the **Forecasting Model** is a simple, versioned, deterministic method, neither.
